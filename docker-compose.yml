@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   db:
-    image: mysql
+    image: mysql:8.0.30
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_USER: user
@@ -12,6 +12,6 @@ services:
       - 3306:3306
 
   adminer:
-    image: adminer
+    image: adminer:4.8.1-standalone
     ports:
       - 8081:8080
