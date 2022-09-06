@@ -1,7 +1,6 @@
 package nl.brightboost.demo.employee;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,29 +13,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController("/employees")
 public class EmployeeController {
+    private final EmployeeService SERVICE;
+
+    public EmployeeController(EmployeeService service) {
+        SERVICE = service;
+    }
+
     @GetMapping
     public Collection<Employee> listEmployees() {
-        return List.of(new Employee(1, "John", "john@example.com", true),
-                new Employee(2, "Jane", "jane@example.com", true),
-                new Employee(3, "Jill", "jill@example.com", false));
+        return SERVICE.getEmployees();
     }
 
     @PostMapping
     public Employee createEmployee(@Validated @RequestBody Employee employee) {
-        return employee;
+        return SERVICE.storeEmployee(employee);
     }
 
     @GetMapping(path = "{id}")
     public Employee getUser(@PathVariable long id) {
-        return new Employee(id, "Jake", "jake@example.com", true);
+        return SERVICE.getEmployeeById(id);
     }
 
     @PatchMapping(path = "{id}")
     public Employee editUser(@PathVariable long id, @Validated @RequestBody Employee employee) {
-        return employee;
+        return SERVICE.updateEmployee(id, employee);
     }
 
     @DeleteMapping(path = "{id}")
     public void deleteUser(@PathVariable long id) {
+        SERVICE.deleteEmployee(id);
     }
 }
