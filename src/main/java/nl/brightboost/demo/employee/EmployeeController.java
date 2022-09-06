@@ -17,7 +17,8 @@ public class EmployeeController {
     @GetMapping
     public Collection<Employee> listEmployees() {
         return List.of(new Employee(1, "John", "john@example.com", true),
-                new Employee(2, "Jane", "jane@example.com", true), new Employee(3, "Jill", "jill@example.com", false));
+                new Employee(2, "Jane", "jane@example.com", true),
+                new Employee(3, "Jill", "jill@example.com", false));
     }
 
     @PostMapping
