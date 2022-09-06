@@ -6,7 +6,9 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class EmployeeService {
@@ -23,7 +25,10 @@ public class EmployeeService {
     public Employee getEmployeeById(long id) {
         Optional<Employee> result = REPOSITORY.findById(id);
 
-        // TODO: Handle not found case
+        if(!result.isPresent()) {
+            // TODO: Add logging
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No employee with id " + id + " found.");
+        }
 
         return result.get();
     }
@@ -35,8 +40,14 @@ public class EmployeeService {
 
     @Transactional
     public Employee updateEmployee(long id, Employee employee) {
-        // TODO: Handle not found case
-        Employee result = REPOSITORY.findById(id).get();
+        Optional<Employee> databaseEmployee = REPOSITORY.findById(id);
+
+        if(!databaseEmployee.isPresent()) {
+            // TODO: Add logging
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No employee with id " + id + " found.");
+        }
+
+        Employee result = databaseEmployee.get();
 
         if (employee.getName() != null && employee.getName().length() > 0
                 && employee.getName() != result.getName()) {
@@ -56,7 +67,10 @@ public class EmployeeService {
     }
 
     public void deleteEmployee(long id) {
+        if(!REPOSITORY.findById(id).isPresent()) {
+            // TODO: Add logging
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No employee with id " + id + " found.");
+        }
         REPOSITORY.deleteById(id);
-        // TODO: Handle not found case
     }
 }
