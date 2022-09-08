@@ -14,7 +14,7 @@ public class IndexController {
     @GetMapping
     public Map<String, Object> index() {
         return Map.of(
-                "description", "A ",
+                "description", "A demo application for spring-boot",
                 "repository", "https://github.com/damymetzke/spring-boot-demo",
                 "resources", List.of("/employees"));
     }
