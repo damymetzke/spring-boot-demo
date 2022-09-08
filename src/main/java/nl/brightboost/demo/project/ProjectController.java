@@ -1,7 +1,6 @@
 package nl.brightboost.demo.project;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.validation.annotation.Validated;
@@ -18,35 +17,36 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "projects")
 public class ProjectController {
 
+    private final ProjectService SERVICE;
+
+    public ProjectController(ProjectService service) {
+        SERVICE = service;
+    }
+
     @GetMapping
     public Collection<Project> listEmployees() {
-        return List.of(new Project(1, "Hello World", "Example Project", "0.1.0", ProjectStatus.PROTOTYPE));
-        // return SERVICE.getEmployees();
+        return SERVICE.getProjects();
     }
 
     @PostMapping
     public Map<String, String> createEmployee(@Validated @RequestBody Project employee) {
-        return Map.of("resource_uri", "/projects/1");
-//        return Map.of(
-//                "resource_uri", "/projects/" + SERVICE.storeEmployee(employee).getId());
+        return Map.of(
+                "resource_uri", "/projects/" + SERVICE.storeProject(employee).getId());
     }
 
     @GetMapping(path = "{id}")
     public Project getUser(@PathVariable long id) {
-        return new Project(1, "Hello World", "Example Project", "0.1.0", ProjectStatus.PROTOTYPE);
-        //return SERVICE.getEmployeeById(id);
+        return SERVICE.getProjectById(id);
     }
 
     @PutMapping(path = "{id}")
     public Map<String, String> editUser(@PathVariable long id, @Validated @RequestBody Project employee) {
         return Map.of(
-                "resource_uri", "/projects/1");
-//        return Map.of(
-//                "resource_uri", "/projects/" + SERVICE.updateEmployee(id, employee).getId());
+                "resource_uri", "/projects/" + SERVICE.updateProject(id, employee).getId());
     }
 
     @DeleteMapping(path = "{id}")
     public void deleteUser(@PathVariable long id) {
-        //SERVICE.deleteEmployee(id);
+        SERVICE.deleteProject(id);
     }
 }
