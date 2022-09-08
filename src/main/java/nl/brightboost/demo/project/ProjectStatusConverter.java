@@ -1,7 +1,9 @@
 package nl.brightboost.demo.project;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
+@Converter(autoApply = true)
 public class ProjectStatusConverter implements AttributeConverter<ProjectStatus, Byte>{
 
     @Override

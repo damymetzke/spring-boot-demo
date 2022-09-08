@@ -2,7 +2,7 @@ package nl.brightboost.demo.project;
 
 public enum ProjectStatus {
     INVALID((byte)0),
-    PROTOTYPE((byte)10),
+    PROTOTYPE((byte)1),
     ALPHA((byte)2),
     BETA((byte)3),
     RELEASE((byte)4),
@@ -20,7 +20,7 @@ public enum ProjectStatus {
 
     public static ProjectStatus fromValue(byte value) {
         switch (value) {
-            case 10:
+            case 1:
                 return ProjectStatus.PROTOTYPE;
             case 2:
                 return ProjectStatus.ALPHA;
