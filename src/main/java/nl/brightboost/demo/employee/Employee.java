@@ -5,16 +5,29 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.validation.annotation.Validated;
 
 @Entity
+@Validated
 public class Employee {
     @Id
     @SequenceGenerator(name = "employee_sequence", sequenceName = "employee_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_sequence")
 
     private long id;
+
+    @NotNull
+    @NotEmpty
     private String name;
+    @NotNull
+    @NotEmpty
+    @Email
     private String email;
+    @NotNull
     private boolean active;
 
     public Employee() {
@@ -34,24 +47,31 @@ public class Employee {
     public long getId() {
         return id;
     }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public boolean isActive() {
         return active;
     }
+
     public void setActive(boolean active) {
         this.active = active;
     }
@@ -59,11 +79,11 @@ public class Employee {
     @Override
     public String toString() {
         return "Employee {"
-        + " id: " + id
-        + " name: \"" + name + '"'
-        + " email: \"" + email + '"'
-        + " active: \"" + active
-        + " }";
+                + " id: " + id
+                + " name: \"" + name + '"'
+                + " email: \"" + email + '"'
+                + " active: \"" + active
+                + " }";
     }
 
 }
