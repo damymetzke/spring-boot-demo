@@ -31,7 +31,7 @@ public class EmployeeService {
     public Employee getEmployeeById(long id) {
         Optional<Employee> result = REPOSITORY.findById(id);
 
-        if(!result.isPresent()) {
+        if (!result.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No employee with id " + id + " found.");
         }
 
@@ -47,19 +47,17 @@ public class EmployeeService {
     public Employee updateEmployee(long id, Employee employee) {
         Optional<Employee> databaseEmployee = REPOSITORY.findById(id);
 
-        if(!databaseEmployee.isPresent()) {
+        if (!databaseEmployee.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No employee with id " + id + " found.");
         }
 
         Employee result = databaseEmployee.get();
 
-        if (employee.getName() != null && employee.getName().length() > 0
-                && employee.getName() != result.getName()) {
+        if (!Objects.equals(employee.getName(), result.getName())) {
             result.setName(employee.getName());
         }
 
-        if (employee.getEmail() != null && employee.getEmail().length() > 0
-                && !Objects.equals(employee.getEmail(), result.getEmail())) {
+        if (!Objects.equals(employee.getEmail(), result.getEmail())) {
             result.setEmail(employee.getEmail());
         }
 
@@ -72,7 +70,7 @@ public class EmployeeService {
     }
 
     public void deleteEmployee(long id) {
-        if(!REPOSITORY.findById(id).isPresent()) {
+        if (!REPOSITORY.findById(id).isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No employee with id " + id + " found.");
         }
         REPOSITORY.deleteById(id);
