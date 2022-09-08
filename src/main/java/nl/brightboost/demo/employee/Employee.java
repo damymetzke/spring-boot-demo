@@ -11,6 +11,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Validated
 public class Employee {
@@ -74,6 +76,11 @@ public class Employee {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @JsonProperty("resource_uri")
+    public String getResourceUri() {
+        return "/employees/" + id ;
     }
 
     @Override

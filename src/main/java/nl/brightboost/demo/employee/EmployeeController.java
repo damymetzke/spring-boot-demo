@@ -1,6 +1,7 @@
 package nl.brightboost.demo.employee;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,8 +28,9 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Employee createEmployee(@Validated @RequestBody Employee employee) {
-        return SERVICE.storeEmployee(employee);
+    public Map<String, String> createEmployee(@Validated @RequestBody Employee employee) {
+        return Map.of(
+                "resource_uri", "/employees/" + SERVICE.storeEmployee(employee).getId());
     }
 
     @GetMapping(path = "{id}")
@@ -37,8 +39,9 @@ public class EmployeeController {
     }
 
     @PutMapping(path = "{id}")
-    public Employee editUser(@PathVariable long id, @Validated @RequestBody Employee employee) {
-        return SERVICE.updateEmployee(id, employee);
+    public Map<String, String> editUser(@PathVariable long id, @Validated @RequestBody Employee employee) {
+        return Map.of(
+                "resource_uri", "/employees/" + SERVICE.updateEmployee(id, employee).getId());
     }
 
     @DeleteMapping(path = "{id}")
