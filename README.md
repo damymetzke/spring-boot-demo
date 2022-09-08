@@ -20,11 +20,12 @@ make sure to create the `demo` database.
 When you have a MySQL server running you can start the server by running:
 
 ```bash
+# Run a development server in the current terminal session
 ./mvnw spring-boot:run
 ```
 
-Note that the server will keep the terminal occupied.
-The server is now available on port 8080.
+The server will automatically reload when the source files change.
+The REST API is now available on port 8080.
 
 ## Docker
 
