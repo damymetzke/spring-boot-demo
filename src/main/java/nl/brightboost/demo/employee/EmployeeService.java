@@ -12,14 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @Service
 public class EmployeeService {
     private final EmployeeRepository REPOSITORY;
     private final Logger LOGGER;
 
-    public EmployeeService(EmployeeRepository repository, ObjectMapper objectMapper) {
+    public EmployeeService(EmployeeRepository repository) {
         REPOSITORY = repository;
         LOGGER = LoggerFactory.getLogger(EmployeeService.class);
     }
