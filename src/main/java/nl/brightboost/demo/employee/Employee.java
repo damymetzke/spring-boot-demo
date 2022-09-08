@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Validated
@@ -46,6 +46,7 @@ public class Employee {
         this.active = active;
     }
 
+    @JsonIgnore
     public long getId() {
         return id;
     }
@@ -78,8 +79,7 @@ public class Employee {
         this.active = active;
     }
 
-    @JsonProperty("resource_uri")
-    public String getResourceUri() {
+    public String getSelf() {
         return "/employees/" + id ;
     }
 
