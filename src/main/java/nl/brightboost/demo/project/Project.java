@@ -37,6 +37,22 @@ public class Project {
     @NotNull
     private ProjectStatus status;
 
+    public Project() {
+        id = 0;
+        title = "";
+        description = "";
+        version = "0.0.0";
+        status = ProjectStatus.INVALID;
+    }
+
+    public Project(long id, String title, String description, String version, ProjectStatus status) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.version = version;
+        this.status = status;
+    }
+
     public long getId() {
         return id;
     }
@@ -78,7 +94,7 @@ public class Project {
     }
 
     public String getSelf() {
-        return "/projects" + id;
+        return "/projects/" + id;
     }
 
 

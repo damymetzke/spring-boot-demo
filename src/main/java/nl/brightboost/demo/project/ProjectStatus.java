@@ -5,7 +5,8 @@ public enum ProjectStatus {
     PROTOTYPE((byte)10),
     ALPHA((byte)2),
     BETA((byte)3),
-    RELEASE((byte)4);
+    RELEASE((byte)4),
+    ARCHIVED((byte)5);
 
     private byte value;
 
@@ -27,6 +28,8 @@ public enum ProjectStatus {
                 return ProjectStatus.BETA;
             case 4:
                 return ProjectStatus.RELEASE;
+            case 5:
+                return ProjectStatus.ARCHIVED;
         }
 
         return ProjectStatus.INVALID;
