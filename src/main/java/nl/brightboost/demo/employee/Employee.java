@@ -56,6 +56,14 @@ public class Employee {
         this.active = active;
     }
 
-
+    @Override
+    public String toString() {
+        return "Employee {"
+        + " id: " + id
+        + " name: \"" + name + '"'
+        + " email: \"" + email + '"'
+        + " active: \"" + active
+        + " }";
+    }
 
 }
