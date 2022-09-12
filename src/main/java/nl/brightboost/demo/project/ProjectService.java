@@ -1,8 +1,10 @@
 package nl.brightboost.demo.project;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
@@ -12,13 +14,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import nl.brightboost.demo.employee.Employee;
+import nl.brightboost.demo.employee.EmployeeRepository;
+
 @Service
 public class ProjectService {
     private final ProjectRepository REPOSITORY;
+    private final EmployeeRepository EMPLOYEE_REPOSITORY;
     private final Logger LOGGER;
 
-    public ProjectService(ProjectRepository repository) {
+    public ProjectService(ProjectRepository repository, EmployeeRepository employeeRepository) {
         REPOSITORY = repository;
+        EMPLOYEE_REPOSITORY = employeeRepository;
         LOGGER = LoggerFactory.getLogger(ProjectService.class);
     }
 
@@ -77,5 +84,31 @@ public class ProjectService {
         }
         REPOSITORY.deleteById(id);
         LOGGER.info("Removed existing project with id {}", id);
+    }
+
+    @Transactional
+    public Project assignEmployeesToProject(long id, Set<Long> employeeIds) {
+        Optional<Project> databaseProject = REPOSITORY.findById(id);
+
+        if (!databaseProject.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No project with id " + id + " found.");
+        }
+
+        Project project = databaseProject.get();
+        project.setEmployees(new HashSet<>());
+
+        employeeIds.stream().map(employeeId -> {
+            Optional<Employee> databaseEmployee = EMPLOYEE_REPOSITORY.findById(employeeId);
+
+            if (!databaseEmployee.isPresent()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No employee with id " + id + " found.");
+            }
+
+            return databaseEmployee.get();
+        }).forEach(employee -> {
+                project.getEmployees().add(employee);
+        });
+
+        return project;
     }
 }

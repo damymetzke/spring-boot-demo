@@ -1,9 +1,14 @@
 package nl.brightboost.demo.project;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -12,6 +17,8 @@ import javax.validation.constraints.Pattern;
 import org.springframework.validation.annotation.Validated;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import nl.brightboost.demo.employee.Employee;
 
 @Entity
 @Validated
@@ -36,6 +43,11 @@ public class Project {
 
     @NotNull
     private ProjectStatus status;
+
+    @ManyToMany
+    @JoinTable(name = "employee_projects", joinColumns = @JoinColumn(name = "projects_id"), inverseJoinColumns = @JoinColumn(name = "employee_id"))
+    @JsonIgnore
+    private Set<Employee> employees;
 
     public Project() {
         id = 0;
@@ -95,6 +107,14 @@ public class Project {
 
     public String getSelf() {
         return "/projects/" + id;
+    }
+
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
     }
 
 

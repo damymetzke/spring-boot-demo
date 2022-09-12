@@ -2,6 +2,7 @@ package nl.brightboost.demo.project;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,5 +49,10 @@ public class ProjectController {
     @DeleteMapping(path = "{id}")
     public void deleteUser(@PathVariable long id) {
         SERVICE.deleteProject(id);
+    }
+
+    @PostMapping(path = "{id}/employees")
+    public void assignEmployeesToProject(@PathVariable long id, @RequestBody Set<Long> employeeIds) {
+        SERVICE.assignEmployeesToProject(id, employeeIds);
     }
 }
