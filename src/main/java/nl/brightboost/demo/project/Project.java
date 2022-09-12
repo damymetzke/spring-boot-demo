@@ -1,6 +1,7 @@
 package nl.brightboost.demo.project;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,9 +15,13 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.springframework.data.mapping.model.SnakeCaseFieldNamingStrategy;
 import org.springframework.validation.annotation.Validated;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 import nl.brightboost.demo.employee.Employee;
 
@@ -117,5 +122,8 @@ public class Project {
         this.employees = employees;
     }
 
-
+    @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+    public Set<String> getEmployeeUris() {
+        return employees.stream().map(employee -> "/employees/" + employee.getId()).collect(Collectors.toSet());
+    }
 }

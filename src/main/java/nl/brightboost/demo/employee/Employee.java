@@ -1,6 +1,7 @@
 package nl.brightboost.demo.employee;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.validation.annotation.Validated;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import nl.brightboost.demo.project.Project;
@@ -88,8 +90,21 @@ public class Employee {
         this.active = active;
     }
 
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
+    }
+
     public String getSelf() {
         return "/employees/" + id ;
+    }
+
+    @JsonFormat(shape = JsonFormat.Shape.ARRAY)
+    public Set<String> getProjectUris() {
+        return projects.stream().map(project -> "/employees/" + project.getId()).collect(Collectors.toSet());
     }
 
     @Override
@@ -101,5 +116,6 @@ public class Employee {
                 + " active: \"" + active
                 + " }";
     }
+
 
 }
