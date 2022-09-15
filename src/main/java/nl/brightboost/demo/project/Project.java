@@ -49,7 +49,7 @@ public class Project {
     @ManyToMany
     @JoinTable(name = "employee_projects", joinColumns = @JoinColumn(name = "projects_id"), inverseJoinColumns = @JoinColumn(name = "employee_id"))
     @JsonIgnore
-    private Set<Employee> employees;
+    private Set<Employee> employeeEntities;
 
     public Project() {
         id = 0;
@@ -111,16 +111,16 @@ public class Project {
         return "/projects/" + id;
     }
 
-    public Set<Employee> getEmployees() {
-        return employees;
+    public Set<Employee> getEmployeeEntities() {
+        return employeeEntities;
     }
 
-    public void setEmployees(Set<Employee> employees) {
-        this.employees = employees;
+    public void setEmployeeEntities(Set<Employee> employees) {
+        this.employeeEntities = employees;
     }
 
     @JsonFormat(shape = JsonFormat.Shape.ARRAY)
-    public Set<String> getEmployeeUris() {
-        return employees.stream().map(employee -> "/employees/" + employee.getId()).collect(Collectors.toSet());
+    public Set<String> getEmployees() {
+        return employeeEntities.stream().map(employee -> "/employees/" + employee.getId()).collect(Collectors.toSet());
     }
 }

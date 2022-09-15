@@ -95,7 +95,7 @@ public class ProjectService {
         }
 
         Project project = databaseProject.get();
-        project.setEmployees(new HashSet<>());
+        project.setEmployeeEntities(new HashSet<>());
 
         employeeIds.stream().map(employeeId -> {
             Optional<Employee> databaseEmployee = EMPLOYEE_REPOSITORY.findById(employeeId);
@@ -106,7 +106,7 @@ public class ProjectService {
 
             return databaseEmployee.get();
         }).forEach(employee -> {
-                project.getEmployees().add(employee);
+                project.getEmployeeEntities().add(employee);
         });
 
         return project;

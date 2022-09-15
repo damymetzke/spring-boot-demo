@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Email;
@@ -42,7 +44,8 @@ public class Employee {
 
     @ManyToMany
     @JsonIgnore
-    private Set<Project> projects;
+    @JoinTable(name = "employee_projects", joinColumns = @JoinColumn(name = "employee_id"), inverseJoinColumns = @JoinColumn(name = "projects_id"))
+    private Set<Project> projectEntities;
 
     public Employee() {
         id = 0;
@@ -90,12 +93,12 @@ public class Employee {
         this.active = active;
     }
 
-    public Set<Project> getProjects() {
-        return projects;
+    public Set<Project> getProjectEntities() {
+        return projectEntities;
     }
 
-    public void setProjects(Set<Project> projects) {
-        this.projects = projects;
+    public void setProjectEntities(Set<Project> projects) {
+        this.projectEntities = projects;
     }
 
     public String getSelf() {
@@ -103,8 +106,8 @@ public class Employee {
     }
 
     @JsonFormat(shape = JsonFormat.Shape.ARRAY)
-    public Set<String> getProjectUris() {
-        return projects.stream().map(project -> "/employees/" + project.getId()).collect(Collectors.toSet());
+    public Set<String> getProjects() {
+        return projectEntities.stream().map(project -> "/employees/" + project.getId()).collect(Collectors.toSet());
     }
 
     @Override
