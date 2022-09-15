@@ -34,18 +34,18 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "{id}")
-    public Employee getUser(@PathVariable long id) {
+    public Employee getEmployee(@PathVariable long id) {
         return SERVICE.getEmployeeById(id);
     }
 
     @PutMapping(path = "{id}")
-    public Map<String, String> editUser(@PathVariable long id, @Validated @RequestBody Employee employee) {
+    public Map<String, String> editEmployee(@PathVariable long id, @Validated @RequestBody Employee employee) {
         return Map.of(
                 "resource_uri", "/employees/" + SERVICE.updateEmployee(id, employee).getId());
     }
 
     @DeleteMapping(path = "{id}")
-    public void deleteUser(@PathVariable long id) {
+    public void deleteEmployee(@PathVariable long id) {
         SERVICE.deleteEmployee(id);
     }
 }

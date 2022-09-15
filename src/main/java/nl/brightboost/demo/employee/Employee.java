@@ -27,6 +27,7 @@ public class Employee {
     @SequenceGenerator(name = "employee_sequence", sequenceName = "employee_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_sequence")
 
+    @JsonIgnore
     private long id;
 
     @NotNull
@@ -57,7 +58,6 @@ public class Employee {
         this.active = active;
     }
 
-    @JsonIgnore
     public long getId() {
         return id;
     }

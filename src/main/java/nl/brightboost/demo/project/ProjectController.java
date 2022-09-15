@@ -25,29 +25,29 @@ public class ProjectController {
     }
 
     @GetMapping
-    public Collection<Project> listEmployees() {
+    public Collection<Project> listProjects() {
         return SERVICE.getProjects();
     }
 
     @PostMapping
-    public Map<String, String> createEmployee(@Validated @RequestBody Project employee) {
+    public Map<String, String> createProject(@Validated @RequestBody Project employee) {
         return Map.of(
                 "resource_uri", "/projects/" + SERVICE.storeProject(employee).getId());
     }
 
     @GetMapping(path = "{id}")
-    public Project getUser(@PathVariable long id) {
+    public Project getProject(@PathVariable long id) {
         return SERVICE.getProjectById(id);
     }
 
     @PutMapping(path = "{id}")
-    public Map<String, String> editUser(@PathVariable long id, @Validated @RequestBody Project employee) {
+    public Map<String, String> editProject(@PathVariable long id, @Validated @RequestBody Project employee) {
         return Map.of(
                 "resource_uri", "/projects/" + SERVICE.updateProject(id, employee).getId());
     }
 
     @DeleteMapping(path = "{id}")
-    public void deleteUser(@PathVariable long id) {
+    public void deleteProject(@PathVariable long id) {
         SERVICE.deleteProject(id);
     }
 
