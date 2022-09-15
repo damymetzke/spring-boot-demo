@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import nl.brightboost.demo.employee.Employee;
+
 @RestController
 @RequestMapping(value = "projects")
 public class ProjectController {
@@ -51,8 +53,18 @@ public class ProjectController {
         SERVICE.deleteProject(id);
     }
 
+    @GetMapping(path = "{id}/employees")
+    public Collection<Employee> getEmployeesAssignedToProject(@PathVariable long id) {
+        return SERVICE.getProjectById(id).getEmployeeEntities();
+    }
+
     @PostMapping(path = "{id}/employees")
     public void assignEmployeesToProject(@PathVariable long id, @RequestBody Set<Long> employeeIds) {
         SERVICE.assignEmployeesToProject(id, employeeIds);
+    }
+
+    @DeleteMapping(path = "{id}/employees/{employeeId}")
+    public void removeEmployeeFromProject(@PathVariable long id, @PathVariable long employeeId) {
+        SERVICE.removeEmployeeFromProject(id, employeeId);
     }
 }

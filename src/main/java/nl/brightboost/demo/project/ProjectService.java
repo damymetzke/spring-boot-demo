@@ -106,9 +106,29 @@ public class ProjectService {
 
             return databaseEmployee.get();
         }).forEach(employee -> {
-                project.getEmployeeEntities().add(employee);
+            project.getEmployeeEntities().add(employee);
         });
 
         return project;
+    }
+
+    @Transactional
+    public void removeEmployeeFromProject(long id, long employeeId) {
+        Optional<Project> databaseProject = REPOSITORY.findById(id);
+
+        if (!databaseProject.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No project with id " + id + " found.");
+        }
+
+        Project project = databaseProject.get();
+
+        Employee employee = project.getEmployeeEntities().stream()
+                .filter(possibleEmployee -> possibleEmployee.getId() == employeeId)
+                .findAny()
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "No employee with id " + id + " found."));
+
+        project.getEmployeeEntities().remove(employee);
+        employee.getProjectEntities().remove(project);
     }
 }
